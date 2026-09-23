@@ -192,11 +192,13 @@ with col_full:
             st.error(f"Failed: {resp.status_code}")
 
 with col_pinfo:
+    pipeline_id_label = f"{PIPELINE_ID[:8]}...{PIPELINE_ID[-4:]}" if PIPELINE_ID else "Not configured"
+    workspace_label = DATABRICKS_HOST.replace("https://", "") if DATABRICKS_HOST else "Not configured"
     st.markdown(f"""
     <div style="border:1px solid rgba(0,229,195,0.12);background:rgba(0,229,195,0.02);padding:1rem 1.25rem;border-radius:2px;font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:rgba(255,255,255,0.35);line-height:1.8;">
         <span style="color:rgba(0,229,195,0.5);">// pipeline config</span><br>
-        ID: {PIPELINE_ID[:8]}...{PIPELINE_ID[-4:]}<br>
-        Workspace: {DATABRICKS_HOST.replace('https://','')}<br>
+        ID: {pipeline_id_label}<br>
+        Workspace: {workspace_label}<br>
         Mode: Triggered · Compute: Serverless · Catalog: uber
     </div>
     """, unsafe_allow_html=True)

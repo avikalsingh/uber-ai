@@ -7,7 +7,7 @@ This avoids the fragile window.frameElement overlay approach entirely.
 import json
 import os
 
-import streamlit as st
+from streamlit.components.v1 import html as component_html
 
 from config_utils import get_secret
 
@@ -563,4 +563,4 @@ def render_floating_chat(live_data: dict | None = None) -> None:
         .replace("__SYSTEM__",  json.dumps(_build_system_prompt(live_data)))
     )
 
-    st.iframe(html, height=1)
+    component_html(html, height=1)

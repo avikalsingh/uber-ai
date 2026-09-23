@@ -184,7 +184,7 @@ def render_live_operations(data: dict) -> None:
                 & df_locs["pickup_longitude"].between(-180, 180)
             ]
             if not df_locs.empty:
-                m = folium.Map(location=[39.5, -98.35], zoom_start=3, tiles="CartoDB dark_matter")
+                m = folium.Map(location=[39.5, -98.35], zoom_start=3, tiles="OpenStreetMap")
                 HeatMap(df_locs[["pickup_latitude", "pickup_longitude"]].values.tolist(), radius=12, blur=10, min_opacity=0.4).add_to(m)
                 st_folium(m, width='stretch', height=380, returned_objects=[], key="pickup_heatmap")
             else:

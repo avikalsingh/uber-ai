@@ -234,16 +234,15 @@ All EventHub management uses the `azure-mgmt-eventhub` Python SDK, not subproces
 ```bash
 git clone https://github.com/avikalsingh/uber-data-engineering-project.git
 cd uber-data-engineering-project
-python -m venv .uber_de
-.uber_de\Scripts\activate       # Windows
-pip install -r requirements.txt
+python -m venv .venv
+.venv\Scripts\python.exe -m pip install -r requirements.txt  # Windows
 ```
 
 ### 2. Configure `.env`
 ```env
 DATABRICKS_HOST=https://your-workspace.cloud.databricks.com
 DATABRICKS_TOKEN=your-token
-DATABRICKS_PIPELINE_ID=your-dlt-pipeline-id
+PIPELINE_ID=your-dlt-pipeline-id
 DATABRICKS_HTTP_PATH=/sql/1.0/warehouses/your-warehouse-id
 
 ADMIN_USERNAME=your-username
@@ -261,19 +260,19 @@ GEMINI_API_KEY=your-gemini-api-key
 ### 3. Start a session
 ```bash
 # Provision EventHub + write credentials to Key Vault
-python start_eventhub.py
+.venv\Scripts\python.exe start_eventhub.py
 
 # Stream rides to EventHub
-python connection.py
+.venv\Scripts\python.exe connection.py
 
 # Run dashboard
-streamlit run streamlit_app/main.py
+.venv\Scripts\python.exe -m streamlit run streamlit_app/main.py
 ```
 
 ### 4. End a session
 ```bash
 # Delete EventHub — stops billing
-python stop_eventhub.py
+.venv\Scripts\python.exe stop_eventhub.py
 ```
 
 ---
@@ -285,7 +284,7 @@ Add these to **App ⋮ → Settings → Secrets**:
 ```toml
 DATABRICKS_HOST = "https://your-workspace.cloud.databricks.com"
 DATABRICKS_TOKEN = "your-token"
-DATABRICKS_PIPELINE_ID = "your-pipeline-id"
+PIPELINE_ID = "your-pipeline-id"
 DATABRICKS_HTTP_PATH = "/sql/1.0/warehouses/your-warehouse-id"
 
 ADMIN_USERNAME = "your-username"

@@ -4,7 +4,7 @@ Injects CSS + IntersectionObserver into Streamlit's parent DOM. Targets natural
 Streamlit data-testid selectors plus .kc/.shd classes. Idempotent — re-running is a no-op.
 """
 
-import streamlit as st
+from streamlit.components.v1 import html as component_html
 
 _INJECTOR = """<!DOCTYPE html>
 <html>
@@ -192,4 +192,4 @@ _INJECTOR = """<!DOCTYPE html>
 
 def inject_scroll_animations() -> None:
     """Inject scroll-triggered animations targeting the parent Streamlit DOM."""
-    st.iframe(_INJECTOR, height=1)
+    component_html(_INJECTOR, height=1)

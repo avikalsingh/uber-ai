@@ -27,6 +27,14 @@ ACTIVE_PIPELINE_STATES = {"RUNNING", "STARTING", "INITIALIZING", "RESETTING", "S
 
 
 def get_pipeline_status() -> dict:
+    if not all((DATABRICKS_HOST, DATABRICKS_TOKEN, PIPELINE_ID)):
+        return {
+            "pipeline_state": "UNKNOWN",
+            "update_state": "",
+            "creation_time": "",
+            "last_modified": 0,
+            "full_refresh": False,
+        }
     try:
         resp = req.get(
             f"{DATABRICKS_HOST}/api/2.0/pipelines/{PIPELINE_ID}",
@@ -153,7 +161,8 @@ def render_pipeline_bar():
     dot          = f'<div style="width:6px;height:6px;border-radius:50%;background:{color};box-shadow:{dot_shadow};{pulse_anim}"></div>'
     status_label = f'<div style="font-size:0.65rem;font-weight:700;color:{color};letter-spacing:0.1em;">{label.upper()}</div>'
     bar          = f'<div style="flex:1;height:2px;background:rgba(255,255,255,0.06);border-radius:1px;overflow:hidden;">{bar_inner}</div>'
-    pid          = f'<div style="font-size:0.55rem;color:rgba(255,255,255,0.15);white-space:nowrap;">{PIPELINE_ID[:8]}...{PIPELINE_ID[-4:]}</div>'
+    pipeline_id_label = f"{PIPELINE_ID[:8]}...{PIPELINE_ID[-4:]}" if PIPELINE_ID else "Not configured"
+    pid          = f'<div style="font-size:0.55rem;color:rgba(255,255,255,0.15);white-space:nowrap;">{pipeline_id_label}</div>'
 
     html = (
         '<div style="display:flex;align-items:center;gap:1.1rem;padding:0.65rem 2rem;'
