@@ -1,0 +1,27 @@
+name: Wake Streamlit App
+
+on:
+  schedule:
+    # Runs every 6 hours (Streamlit idle timeouts typically start after 2–3 days of inactivity)
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+
+jobs:
+  wake:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Playwright
+        run: |
+          pip install playwright
+          playwright install --with-deps chromium
+
+      - name: Run Wake Script
+        run: python scripts/wake_app.py
